@@ -71,8 +71,11 @@ public abstract class RunClientTask extends JavaExec {
                 s = s.replaceAll("\\$\\{auth_session}", "");
                 s = s.replaceAll("\\$\\{game_directory}", gameDir);
                 s = s.replaceAll("\\$\\{game_assets}", assetsDir);
+                s = s.replaceAll("\\$\\{assets_root}", assetsDir);
+                s = s.replaceAll("\\$\\{assets_index_name}", versionData.assets);
                 s = s.replaceAll("\\$\\{version_type}", "sulphur-dev");
                 s = s.replaceAll("\\$\\{version_name}", versionData.id);
+                s = s.replaceAll("\\$\\{user_properties}", "{}");
                 newArgs.add(s);
             }
             args(newArgs);
@@ -88,13 +91,14 @@ public abstract class RunClientTask extends JavaExec {
                 s = s.replaceAll("\\$\\{auth_session}", "");
                 s = s.replaceAll("\\$\\{game_directory}", gameDir);
                 s = s.replaceAll("\\$\\{assets_root}", assetsDir);
+                s = s.replaceAll("\\$\\{assets_index_name}", versionData.assets);
                 s = s.replaceAll("\\$\\{auth_access_token}", "");
                 s = s.replaceAll("\\$\\{auth_xuid}", "0");
-                s = s.replaceAll("\\$\\{assets_index_name}", versionData.assets);
                 s = s.replaceAll("\\$\\{auth_uuid}", UUID.randomUUID().toString());
                 s = s.replaceAll("\\$\\{user_type}", "msa");
                 s = s.replaceAll("\\$\\{version_type}", "sulphur-dev");
                 s = s.replaceAll("\\$\\{version_name}", versionData.id);
+                s = s.replaceAll("\\$\\{user_properties}", "{}");
                 newArgs.add(s);
             }
             args(newArgs);
