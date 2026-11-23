@@ -33,8 +33,7 @@ repositories {
 }
 
 dependencies {
-//    puzzleLoader 'dev.puzzleshq:puzzle-loader-core:1.4.6-alpha'
-    puzzleLoader 'dev.puzzleshq:puzzle-loader-core:69.69.69-alpha'
+    puzzleLoader 'dev.puzzleshq:puzzle-loader-core:1.4.6-alpha'
     implementation "net.minecraftforge:eventbus:2.2.1"
 }
 
