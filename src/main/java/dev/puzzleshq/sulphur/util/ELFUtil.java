@@ -28,6 +28,9 @@ import java.util.Locale;
  * </ul>
  *
  * @author M4ximumPizza
+ *
+ * @see MachOUtil
+ * @see PEUtil
  */
 public final class ELFUtil {
 

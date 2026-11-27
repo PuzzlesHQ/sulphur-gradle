@@ -15,9 +15,7 @@ import dev.puzzleshq.sulphur.minecraft.manifest.version.client.libraries.Artifac
 import dev.puzzleshq.sulphur.minecraft.manifest.version.client.libraries.Library;
 import dev.puzzleshq.sulphur.transform.LocalMaven;
 import dev.puzzleshq.sulphur.transform.SulphurConfigurations;
-import dev.puzzleshq.sulphur.util.ELFUtil;
-import dev.puzzleshq.sulphur.util.FileUtil;
-import dev.puzzleshq.sulphur.util.OSUtil;
+import dev.puzzleshq.sulphur.util.*;
 import org.gradle.api.Project;
 import org.gradle.api.artifacts.dsl.DependencyHandler;
 import org.gradle.api.artifacts.result.ResolvedArtifactResult;
@@ -462,7 +460,8 @@ public class MinecraftSetup {
                     continue;
                 }
 
-                byte[] header = new byte[20];
+                // Read enough bytes for PE header inspection.
+                byte[] header = new byte[4096];
                 int headerLength = 0;
 
                 while (headerLength < header.length) {
@@ -479,7 +478,37 @@ public class MinecraftSetup {
                     headerLength += read;
                 }
 
-                if (!ELFUtil.isCompatibleElf(header, headerLength)) {
+                boolean compatible;
+
+                switch (OSUtil.osId) {
+                    case "windows":
+                        compatible = PEUtil.isCompatiblePE(
+                                header,
+                                headerLength
+                        );
+                        break;
+
+                    case "linux":
+                        compatible = ELFUtil.isCompatibleElf(
+                                header,
+                                headerLength
+                        );
+                        break;
+
+                    case "osx":
+                    case "macos":
+                        compatible = MachOUtil.isCompatibleMachO(
+                                header,
+                                headerLength
+                        );
+                        break;
+
+                    default:
+                        compatible = false;
+                        break;
+                }
+
+                if (!compatible) {
                     System.out.println(
                             "Skipping incompatible native binary: " + name
                     );
